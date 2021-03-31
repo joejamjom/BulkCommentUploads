@@ -1,0 +1,46 @@
+<template>
+  <lightning-card icon-name="standard:record" title="Bulk Comment Uploads">
+    <!-- <div id="dropContainer" style="border:1px solid black;height:100px;">
+  <input type="file" accept=".csv" onchange={handleUploadFinished} />
+</div> -->
+    <div if:false={showError}>
+      <div if:false={showResult}>
+        <div style="margin-left: 3%">
+          <lightning-file-upload class="dragbox" name="fileUploader" accept={acceptedFormats} record-id={recordId}
+            onuploadfinished={handleUploadFinished} multiple>
+          </lightning-file-upload>
+        </div>
+      </div>
+    </div>
+  </lightning-card>
+  <br />
+  <div if:true={showError}>
+    <lightning-textarea name="input" label="Message" disabled="true" value={errorMsg}
+      style="color: red; font-size: 17px"></lightning-textarea>
+    <br />
+    <lightning-button variant="destructive" label="Done" title="Destructive action" onclick={handleDone}
+      class="slds-var-m-left_x-small" style="margin-left: 50%"></lightning-button>
+  </div>
+  <div if:false={showError}>
+    <div if:true={showResult}>
+      <lightning-button variant="destructive" label="Done" title="Destructive action" onclick={handleDone}
+        class="slds-var-m-left_x-small" style="margin-left: 50%"></lightning-button>
+      <br />
+      <lightning-card icon-name="standard:record" title={failHeader}>
+        <lightning-datatable columns={columns} data={failedRecords} hide-checkbox-column="true" key-field="id"
+          wrap-text-max-lines="3" show-row-number-column="true">
+        </lightning-datatable>
+      </lightning-card>
+      <br />
+      <lightning-card icon-name="standard:record" title={successHeader}>
+        <lightning-datatable columns={columns} data={successRecords} hide-checkbox-column="true" key-field="id"
+          wrap-text-max-lines="3" show-row-number-column="true">
+        </lightning-datatable>
+      </lightning-card>
+      <br />
+    </div>
+  </div>
+  <div class="exampleHolder" if:true={loading}>
+    <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+  </div>
+</template>
